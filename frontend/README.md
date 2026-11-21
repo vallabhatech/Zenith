@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# Zenith Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Zenith frontend is a React + TypeScript single-page application built with Vite.
 
-Currently, two official plugins are available:
+## Main areas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `components/layout/PageShell.tsx` — active application shell and view transitions
+- `pages/CommandCenter.tsx` — dashboard, triage, announcements, chat and study view
+- `components/graph/KnowledgeGraph.tsx` — 3D knowledge graph
+- `pages/Calendar.tsx` — seeded assignment calendar
+- `pages/Profile.tsx` — sample student profile
+- `components/study/StudyLabPane.tsx` — flashcard, quiz and study-guide generation
+- `store/useAppStore.ts` — primary Zustand store
+- `lib/api.ts` — backend API client
 
-## React Compiler
+## Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` — Vite development server
+- `npm run build` — TypeScript build and Vite production build
+- `npm run lint` — ESLint
+- `npm run preview` — preview the production build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Backend connection
+
+The current API client uses `http://localhost:8000`. The voice hook has its own hard-coded localhost origin as well. These should be moved to a shared environment-based configuration before deploying the frontend.
+
+## State and data
+
+The frontend loads seeded data from the FastAPI backend and stores it in Zustand. Chat history, generated artifacts, and mastery changes are currently in-memory. There is no authenticated account or durable browser/backend persistence.
+
+See the repository-level [README](../README.md), [Architecture](../docs/ARCHITECTURE.md), [API reference](../docs/API_REFERENCE.md), [Development guide](../docs/DEVELOPMENT.md), and [Audit](../docs/AUDIT.md).
